@@ -6,7 +6,7 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :password_digest
       t.string :zipcode
       t.string :search_radius
-      t.datetime :date_of_last_search, default: null
+      t.datetime :date_of_last_search
 
       t.timestamps
     end
