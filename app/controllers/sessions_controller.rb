@@ -21,4 +21,11 @@ class SessionsController < ApplicationController
             }
         end 
     end 
+
+    def destroy 
+        session.clear
+        render json: {
+            notice: "You have been logged out."
+        }
+    end 
 end
