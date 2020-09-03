@@ -2,9 +2,14 @@ class SearchesController < ApplicationController
 
   # GET /searches
   def index
-    @searches = Search.all
-
-    render json: @searches
+    if logged_in?
+      @searches = current_user.searches
+      render json: @searches
+    else 
+      render json: {
+        error: "You must be logged in to view searches."
+      }
+    end 
   end
 
   # GET /searches/1
@@ -14,7 +19,6 @@ class SearchesController < ApplicationController
 
   # POST /searches
   def create
-    byebug
     @search = Search.new(search_params)
 
     if @search.save
@@ -24,16 +28,28 @@ class SearchesController < ApplicationController
     end
   end
   
+  # POST /search_results 
   def search_results
-    byebug
-    base_url = "https://api.petfinder.com/v2/animals?type=#{type}&location=#{location}&distance=#{distance}"
-    type = "dog"
-    gender = "male"
-    size = "small"
-    location = "97214"
-    distance = "100"
-    url = URI("https://api.petfinder.com/v2/animals?type=#{type}&gender=#{gender}&size=#{size}&location=#{location}&distance=#{distance}")
+    type = params[:animal]
+    location = params[:location]
+    distance = params[:searchRadius]
 
+    base_url = "https://api.petfinder.com/v2/animals?type=#{type}&location=#{location}&distance=#{distance}"
+
+    if params[:gender] != "any"
+      g = "&gender=#{params[:gender]}"
+      base_url += g 
+    end 
+    if params[:size] != "any"
+      s = "&size=#{params[:size]}"
+      base_url += s
+    end 
+    if params[:age] != "any"
+      a = "&age=#{params[:age]}"
+      base_url += a 
+    end 
+     
+    url = URI(base_url)
     https = Net::HTTP.new(url.host, url.port);
     https.use_ssl = true
 
@@ -51,7 +67,6 @@ class SearchesController < ApplicationController
   end
 
   private
-    # Only allow a trusted parameter "white list" through.
     def search_params
       params.require(:search).permit(:animal, :gender, :size, :age, :user_id)
     end
