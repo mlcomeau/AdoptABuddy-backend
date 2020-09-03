@@ -1,5 +1,4 @@
 class SearchesController < ApplicationController
-  before_action :set_search, only: [:show, :update, :destroy]
 
   # GET /searches
   def index
@@ -15,6 +14,7 @@ class SearchesController < ApplicationController
 
   # POST /searches
   def create
+    byebug
     @search = Search.new(search_params)
 
     if @search.save
@@ -26,6 +26,7 @@ class SearchesController < ApplicationController
   
   def search_results
     byebug
+    base_url = "https://api.petfinder.com/v2/animals?type=#{type}&location=#{location}&distance=#{distance}"
     type = "dog"
     gender = "male"
     size = "small"
@@ -52,7 +53,8 @@ class SearchesController < ApplicationController
   private
     # Only allow a trusted parameter "white list" through.
     def search_params
-      params.fetch(:search, {})
+      params.require(:search).permit(:animal, :gender, :size, :age, :user_id)
     end
 end
+
 
