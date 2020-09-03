@@ -17,9 +17,7 @@ class SessionsController < ApplicationController
         if logged_in?
             render json: current_user 
         else 
-            render json: {
-                error: "Hmmmm... Something went wrong."
-            }
+            render :nothing => true
         end 
     end 
 

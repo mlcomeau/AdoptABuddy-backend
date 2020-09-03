@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   post "/signup", to: "users#create"
   get "/get_current_user", to: "sessions#get_current_user"
   delete "/logout", to: "sessions#destroy"
+  get "/search_results", to: "searches#search_results"
   resources :decisions
   resources :searches
   resources :users
