@@ -10,19 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_31_215436) do
+ActiveRecord::Schema.define(version: 2020_09_06_190644) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "decisions", force: :cascade do |t|
-    t.bigint "user_id"
-    t.string "pet_id"
-    t.string "result"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_decisions_on_user_id"
-  end
 
   create_table "searches", force: :cascade do |t|
     t.bigint "user_id"

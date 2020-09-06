@@ -12,11 +12,6 @@ class SearchesController < ApplicationController
     end 
   end
 
-  # GET /searches/1
-  def show
-    render json: @search
-  end
-
   # POST /searches
   def create
     @search = Search.new(search_params)
