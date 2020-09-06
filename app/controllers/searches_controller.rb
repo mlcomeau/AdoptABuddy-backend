@@ -63,7 +63,11 @@ class SearchesController < ApplicationController
 
   # DELETE /searches/1
   def destroy
-    @search.destroy
+    @search = Search.find(params[:id])
+    @search.destroy 
+    render json: {
+      data: "Search successfully deleted"
+    }
   end
 
   private
