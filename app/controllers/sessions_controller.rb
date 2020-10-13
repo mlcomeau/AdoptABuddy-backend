@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
 
         if @user && @user.authenticate(params[:session][:password])
             session[:user_id] = @user.id
-            render json: @user 
+            render json: @user, except: [:password_digest]
         else 
             render json: {
                 error: "Invalid Credentials"
@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
 
     def get_current_user
         if logged_in?
-            render json: current_user 
+            render json: current_user, except: [:password_digest] 
         else 
             render :nothing => true
         end 
