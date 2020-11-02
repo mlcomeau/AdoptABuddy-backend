@@ -25,12 +25,41 @@ class SearchesController < ApplicationController
   
   # POST /search_results 
   def search_results
+    # ---------- compose bearer token request 
+    id = ENV['CLIENT_ID']
+    secret = ENV['CLIENT_SECRET']
+    uri = URI.parse("https://api.petfinder.com/v2/oauth2/token")
+
+    request = Net::HTTP::Post.new(uri)
+    request.set_form_data(
+      "client_id" => "#{id}",
+      "client_secret" => "#{secret}",
+      "grant_type" => "client_credentials",
+    )    
+       
+    req_options = {
+      use_ssl: uri.scheme == "https",
+    }
+    
+    #send bearer token request 
+    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+      http.request(request)
+    end
+
+
+    #turn JSON response into hash so we can use its data 
+    resp = JSON.parse(response.body) 
+
+    #assign bearer token from resp to a variable 
+    token = resp['access_token']
+    
+    # -------- get data from search form 
     type = params[:animal]
     location = params[:location]
     distance = params[:searchRadius]
 
+    # --------- compose PetFinder API endpoint URL
     base_url = "https://api.petfinder.com/v2/animals?type=#{type}&location=#{location}&distance=#{distance}"
-
     if params[:gender] != "any"
       g = "&gender=#{params[:gender]}"
       base_url += g 
@@ -43,17 +72,18 @@ class SearchesController < ApplicationController
       a = "&age=#{params[:age]}"
       base_url += a 
     end 
-     
     url = URI(base_url)
+
+    # --------- the search request 
     https = Net::HTTP.new(url.host, url.port);
     https.use_ssl = true
 
-    request = Net::HTTP::Get.new(url)
-    request["Authorization"] = ENV['TOKEN']
+    request2 = Net::HTTP::Get.new(url)
+    request2["Authorization"] = "Bearer #{token}"
 
-    response = https.request(request)
+    response2 = https.request(request2)
 
-    render json: response.body
+    render json: response2.body
   end 
 
   # DELETE /searches/1
