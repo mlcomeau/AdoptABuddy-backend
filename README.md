@@ -22,7 +22,8 @@ Don't forget to add the .env file to your .gitignore!
 
 ## Usage 
 
-The AdoptABuddy front end repository can be found [here](https://github.com/mlcomeau/AdoptABuddy-frontend) and include installation instructions. Once that is complete run `rails s` to start the API 
+Run 'rails s' to start the API.
+The AdoptABuddy front end repository can be found [here](https://github.com/mlcomeau/AdoptABuddy-frontend) and includes installation instructions.
 
 ## Contributing 
 
