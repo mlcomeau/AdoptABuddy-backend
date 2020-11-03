@@ -4,16 +4,21 @@ This is a Ruby on Rails based API that is designed to be integrated with the Ado
 
 ## Installation 
 
-Fork and clone this repo onto your computer. 
-Install dependencies: `bundle install`
-Setup the database: 
+1) Fork and clone this repo onto your computer. 
+2) Install dependencies: `bundle install`
+3) Setup the database: 
 ```
 rake db:migrate
 rake db:seed
 ```
-
-This application uses the Petfinder API, which requires an API key. Instructions on how to get an API key can be found [here](https://www.petfinder.com/developers/)
-Once you have your key you will need to make a .env file in the root directory and create a global variable, TOKEN, which contains your credentials. Make sure this file is added to your gitignore file.
+4) Setup PetFinder API credentials 
+This application uses the Petfinder API so you'll need to get yourself some credentials --> [GO HERE](https://www.petfinder.com/developers/)
+Once you have your key and your secret you will need to make a .env file in the root directory and create two global variables that will hold your credentials
+```
+CLIENT_ID = 
+CLIENT_SECRET = 
+```
+Don't forget to add the .env file to your .gitignore!
 
 ## Usage 
 
